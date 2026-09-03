@@ -1,7 +1,8 @@
 """devlog: record a build session as it happens.
 
   devlog init <name>                                   start (or reopen) devlog/<name> and make it active here
-  devlog note --user "..." --agent "..." [--tags fail,fix] [--files a.png b.txt]
+  devlog note --user "..." --agent "..." [--tags fail,fix] [--files a.png b.txt] [--url ... --quote "..."]
+  devlog source <url> --quote "the sentence that mattered" [--caption] [--scroll SEL]   screenshot + link + quote, one entry
   devlog add <file> [--caption "..."] [--tags ...]      copy a produced file in (png/jpg/gif/txt/json/mp4...)
   devlog shot <url|file.html> [--caption] [--w --h --scroll SEL --full]
   devlog clip <url|file.html|file.gif|file.mp4> [--dur 6 --keys "ArrowRight:0-1500"] [--caption]
@@ -21,7 +22,8 @@ def main(argv=None):
     p = argparse.ArgumentParser(prog="devlog", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
     a = sub.add_parser("init"); a.add_argument("name"); a.add_argument("--dir", default="devlog")
-    a = sub.add_parser("note"); a.add_argument("--user", default=""); a.add_argument("--agent", default=""); a.add_argument("--caption", default=""); a.add_argument("--tags", default=""); a.add_argument("--files", nargs="*", default=[])
+    a = sub.add_parser("note"); a.add_argument("--user", default=""); a.add_argument("--agent", default=""); a.add_argument("--caption", default=""); a.add_argument("--tags", default=""); a.add_argument("--files", nargs="*", default=[]); a.add_argument("--url", default=""); a.add_argument("--quote", default="")
+    a = sub.add_parser("source"); a.add_argument("url"); a.add_argument("--quote", default=""); a.add_argument("--caption", default=""); a.add_argument("--tags", default=""); a.add_argument("--scroll"); a.add_argument("--w", type=int, default=1280); a.add_argument("--h", type=int, default=900); a.add_argument("--full", action="store_true")
     a = sub.add_parser("add"); a.add_argument("file"); a.add_argument("--caption", default=""); a.add_argument("--tags", default=""); a.add_argument("--user", default=""); a.add_argument("--agent", default="")
     a = sub.add_parser("shot"); a.add_argument("target"); a.add_argument("--caption", default=""); a.add_argument("--tags", default=""); a.add_argument("--w", type=int, default=1280); a.add_argument("--h", type=int, default=720); a.add_argument("--scroll"); a.add_argument("--full", action="store_true"); a.add_argument("--wait", type=float, default=1.0)
     a = sub.add_parser("clip"); a.add_argument("target"); a.add_argument("--caption", default=""); a.add_argument("--tags", default=""); a.add_argument("--dur", type=float, default=6.0); a.add_argument("--w", type=int, default=1280); a.add_argument("--h", type=int, default=720); a.add_argument("--keys", default=""); a.add_argument("--wait", type=float, default=0.8)
@@ -35,7 +37,14 @@ def main(argv=None):
         j = Journal.init(args.name, args.dir); print("devlog:", j.root); return
     j = Journal.active()
     if args.cmd == "note":
-        e = j.note(args.user, args.agent, args.caption, tags(), args.files); print(f"#{e['n']:03d} noted")
+        e = j.note(args.user, args.agent, args.caption, tags(), args.files, url=args.url, quote=args.quote); print(f"#{e['n']:03d} noted")
+    elif args.cmd == "source":
+        from urllib.parse import urlparse
+        name = args.caption or (urlparse(args.url).netloc + " " + Path(urlparse(args.url).path).name)
+        out = j.next_path("assets", name, ".png")
+        try: media.shot(args.url, out, args.w, args.h, args.scroll, args.full); files = [out]
+        except SystemExit as ex: print("(no screenshot:", str(ex)[:120], ")"); files = []
+        e = j.record("source", files, args.caption, tags(), url=args.url, quote=args.quote); print(f"#{e['n']:03d}", out if files else args.url)
     elif args.cmd == "add":
         e = j.add(args.file, args.caption, tags(), user=args.user, agent=args.agent); print(f"#{e['n']:03d}", e["files"][0])
     elif args.cmd == "shot":

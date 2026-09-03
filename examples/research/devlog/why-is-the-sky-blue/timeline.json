@@ -1,0 +1,92 @@
+[
+ {
+  "n": 1,
+  "time": 1788459972.5732238,
+  "kind": "note",
+  "user": "why is the sky blue, and why is the sunset red then? i want the real answer not the kids one",
+  "agent": "Two candidate explanations to check: Rayleigh scattering (blue light scatters more) and ozone absorption. Reading the primary pages first.",
+  "caption": "",
+  "tags": [
+   "milestone"
+  ],
+  "files": []
+ },
+ {
+  "n": 2,
+  "time": 1788459978.190283,
+  "kind": "source",
+  "user": "",
+  "agent": "",
+  "caption": "Rayleigh scattering, the mechanism",
+  "tags": [],
+  "files": [
+   "/Users/IsabellaGreco/Projects/devlog-recorder/examples/research/devlog/why-is-the-sky-blue/assets/002-rayleigh-scattering-the-mechanism.png"
+  ],
+  "url": "https://en.wikipedia.org/wiki/Rayleigh_scattering",
+  "quote": "The strong wavelength dependence of the scattering means that shorter (blue) wavelengths are scattered more strongly than longer (red) wavelengths"
+ },
+ {
+  "n": 3,
+  "time": 1788459983.3346848,
+  "kind": "source",
+  "user": "",
+  "agent": "",
+  "caption": "why the sky is not violet",
+  "tags": [],
+  "files": [
+   "/Users/IsabellaGreco/Projects/devlog-recorder/examples/research/devlog/why-is-the-sky-blue/assets/003-why-the-sky-is-not-violet.png"
+  ],
+  "url": "https://en.wikipedia.org/wiki/Diffuse_sky_radiation",
+  "quote": "the scattering of sunlight in the atmosphere is strongly wavelength dependent"
+ },
+ {
+  "n": 4,
+  "time": 1788459983.523062,
+  "kind": "note",
+  "user": "wait so why isnt it violet then, violet is shorter",
+  "agent": "Three reasons, from the diffuse sky radiation page: the sun emits less violet than blue, the upper atmosphere absorbs some violet, and our eyes are far less sensitive to violet. The sum reads as blue.",
+  "caption": "",
+  "tags": [
+   "surprise"
+  ],
+  "files": []
+ },
+ {
+  "n": 5,
+  "time": 1788459987.756681,
+  "kind": "source",
+  "user": "",
+  "agent": "",
+  "caption": "sunset: the same effect over a longer path",
+  "tags": [],
+  "files": [
+   "/Users/IsabellaGreco/Projects/devlog-recorder/examples/research/devlog/why-is-the-sky-blue/assets/005-sunset-the-same-effect-over-a-longer-pat.png"
+  ],
+  "url": "https://en.wikipedia.org/wiki/Sunset",
+  "quote": "the red hues are produced by the scattering of shorter wavelengths out of the line of sight"
+ },
+ {
+  "n": 6,
+  "time": 1788459987.855513,
+  "kind": "note",
+  "user": "ok so sunsets are red because the blue already got scattered away before it reaches me",
+  "agent": "Yes. At sunset light crosses roughly 40 times more atmosphere than at noon, so most blue is scattered out of the direct beam before it arrives; what is left is orange and red. Ozone adds a little to the blue at twilight but is not the main cause.",
+  "caption": "",
+  "tags": [
+   "decision"
+  ],
+  "files": []
+ },
+ {
+  "n": 7,
+  "time": 1788459987.950885,
+  "kind": "note",
+  "user": "good, thats the video",
+  "agent": "Stopped. Sheet and brief written.",
+  "caption": "",
+  "tags": [
+   "milestone"
+  ],
+  "files": []
+ }
+]

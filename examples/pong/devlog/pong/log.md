@@ -1,8 +1,8 @@
 # pong devlog
 
-Started 2026-09-03 19:18.
+Started 2026-09-03 19:26.
 
-## 001 · 19:18 · note
+## 001 · 19:26 · note
 
 **User said:** make me a pong game in a single html file, nothing fancy
 
@@ -10,13 +10,13 @@ Started 2026-09-03 19:18.
 
 _tags: milestone_
 
-## 002 · 19:18 · shot
+## 002 · 19:26 · shot
 
 first playable
 
 ![002-first-playable.png](assets/002-first-playable.png)
 
-## 003 · 19:18 · clip
+## 003 · 19:26 · clip
 
 it plays itself
 
@@ -24,7 +24,7 @@ it plays itself
 
 _tags: win_
 
-## 004 · 19:18 · note
+## 004 · 19:26 · note
 
 **User said:** the ball goes through the paddle sometimes
 
@@ -32,19 +32,19 @@ _tags: win_
 
 _tags: fail, fix_
 
-## 005 · 19:18 · shot
+## 005 · 19:26 · shot
 
 after the fix
 
 ![005-after-the-fix.png](assets/005-after-the-fix.png)
 
-## 006 · 19:18 · compare
+## 006 · 19:26 · compare
 
 before and after the hit test fix
 
 ![006-before-and-after-the-hit-test-fix.png](assets/006-before-and-after-the-hit-test-fix.png)
 
-## 007 · 19:18 · note
+## 007 · 19:26 · note
 
 **User said:** can i control the left one with the arrows?
 
@@ -52,13 +52,13 @@ before and after the hit test fix
 
 _tags: decision_
 
-## 008 · 19:19 · clip
+## 008 · 19:26 · clip
 
 left paddle on the arrow keys
 
 - `clips/008-left-paddle-on-the-arrow-keys.mp4`
 
-## 009 · 19:19 · note
+## 009 · 19:26 · note
 
 **User said:** ok that's enough for today
 

@@ -60,14 +60,18 @@ class Journal:
         if e.get("user"): out.append(f"\n**User said:** {e['user']}")
         if e.get("agent"): out.append(f"\n**What happened:** {e['agent']}")
         if e.get("caption"): out.append(f"\n{e['caption']}")
+        if e.get("url"): out.append(f"\nSource: <{e['url']}>")
+        if e.get("quote"): out.append(f"\n> {e['quote']}")
         for f in e.get("files", []):
             rel = Path(f).name; d = Path(f).parent.name
             out.append(f"\n![{rel}]({d}/{rel})" if rel.lower().endswith((".png", ".jpg", ".jpeg", ".gif")) else f"\n- `{d}/{rel}`")
         if e.get("tags"): out.append(f"\n_tags: {', '.join(e['tags'])}_")
         return "\n".join(out) + "\n"
 
-    def note(self, user: str = "", agent: str = "", caption: str = "", tags=None, files=None) -> dict:
-        e = dict(n=self._next(), time=time.time(), kind="note", user=user, agent=agent, caption=caption, tags=tags or [], files=[str(f) for f in (files or [])])
+    def note(self, user: str = "", agent: str = "", caption: str = "", tags=None, files=None, url: str = "", quote: str = "", kind: str = "note") -> dict:
+        e = dict(n=self._next(), time=time.time(), kind=kind, user=user, agent=agent, caption=caption, tags=tags or [], files=[str(f) for f in (files or [])])
+        if url: e["url"] = url
+        if quote: e["quote"] = quote
         self._save(e); return e
 
     def add(self, src: str, caption: str = "", tags=None, kind: str = "asset", user: str = "", agent: str = "") -> dict:
@@ -78,8 +82,10 @@ class Journal:
         e = dict(n=n, time=time.time(), kind=kind, user=user, agent=agent, caption=caption, tags=tags or [], files=[str(dst)])
         self._save(e); return e
 
-    def record(self, kind: str, files: list, caption: str = "", tags=None, user: str = "", agent: str = "") -> dict:
+    def record(self, kind: str, files: list, caption: str = "", tags=None, user: str = "", agent: str = "", url: str = "", quote: str = "") -> dict:
         e = dict(n=self._next(), time=time.time(), kind=kind, user=user, agent=agent, caption=caption, tags=tags or [], files=[str(f) for f in files])
+        if url: e["url"] = url
+        if quote: e["quote"] = quote
         self._save(e); return e
 
     def next_path(self, sub: str, name: str, ext: str) -> Path:
@@ -95,26 +101,27 @@ class Journal:
              f"{sum(len(e.get('files', [])) for e in es)} artifacts, {sum(1 for e in es if e['kind'] == 'clip')} clips.", "",
              "Read this top to bottom and you have the beats of the video: what was asked, what came back, where it broke, what fixed it.",
              "Quotes are verbatim. Every beat names the picture or clip that shows it.", ""]
-        fails = [e for e in es if "fail" in e.get("tags", []) or "bug" in e.get("tags", [])]
-        fixes = [e for e in es if "fix" in e.get("tags", []) or "rule" in e.get("tags", [])]
-        wins = [e for e in es if "win" in e.get("tags", []) or "milestone" in e.get("tags", [])]
-        if fails or fixes or wins:
+        T = lambda *ts: [e for e in es if any(t in e.get("tags", []) for t in ts)]
+        fails, fixes, wins, srcs = T("fail", "bug", "surprise"), T("fix", "rule", "decision"), T("win", "milestone"), [e for e in es if e.get("url")]
+        if fails or fixes or wins or srcs:
             L += ["## Turning points", ""]
-            for lab, group in (("Went wrong", fails), ("Fixed / became a rule", fixes), ("Worked", wins)):
-                if group: L += [f"**{lab}:** " + "; ".join(f"#{e['n']:03d} {e.get('caption') or e.get('agent') or e.get('user')}"[:90] for e in group), ""]
+            for lab, group in (("Went wrong / surprised", fails), ("Fixed / decided / became a rule", fixes), ("Worked", wins), ("Sources", srcs)):
+                if group: L += [f"**{lab}:** " + "; ".join(f"#{e['n']:03d} {e.get('caption') or e.get('agent') or e.get('user') or e.get('url')}"[:90] for e in group), ""]
         L += ["## Beats", ""]
         for e in es:
             t = datetime.fromtimestamp(e["time"]).strftime("%H:%M"); head = e.get("caption") or e.get("agent") or e.get("user") or e["kind"]
             L.append(f"### #{e['n']:03d} {t} · {head[:80]}")
             if e.get("user"): L.append(f"> {e['user']}")
             if e.get("agent"): L.append(f"What happened: {e['agent']}")
+            if e.get("url"): L.append(f"- source: {e['url']}")
+            if e.get("quote"): L.append(f"- quote: \"{e['quote']}\"")
             for f in e.get("files", []): L.append(f"- show: `{Path(f).parent.name}/{Path(f).name}`")
             if e.get("tags"): L.append(f"- tags: {', '.join(e['tags'])}")
             L.append("")
         L += ["## Script skeleton (fill in)", "",
-              "1. Hook: what was being attempted and why it is not obvious.",
-              "2. First attempt: the earliest asset in `assets/`, and the first thing that went wrong.",
-              "3. The loop: each `fail` beat followed by its `fix`/`rule` beat, in order.",
+              "1. Hook: what was being attempted, found out, or decided, and why it is not obvious.",
+              "2. First attempt: the earliest asset in `assets/`, and the first thing that went wrong or surprised.",
+              "3. The loop: each `fail`/`surprise` beat followed by its `fix`/`rule`/`decision` beat, in order. Sources with their quotes are the receipts.",
               "4. Where it ended up: the last clip, side by side with the first.",
               "5. Verdict: the user's own words from the last notes.", "",
               "Build the video with script-to-video: every beat above is one shot, the `show:` line is its picture.", ""]

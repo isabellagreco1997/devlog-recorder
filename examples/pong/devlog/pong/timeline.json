@@ -1,7 +1,7 @@
 [
  {
   "n": 1,
-  "time": 1788459520.0881972,
+  "time": 1788459988.464171,
   "kind": "note",
   "user": "make me a pong game in a single html file, nothing fancy",
   "agent": "Wrote index.html: a 640x360 canvas, two paddles, a ball, both paddles driven by a lazy AI so it plays itself. 40 lines.",
@@ -13,7 +13,7 @@
  },
  {
   "n": 2,
-  "time": 1788459523.831755,
+  "time": 1788459991.4978461,
   "kind": "shot",
   "user": "",
   "agent": "",
@@ -25,7 +25,7 @@
  },
  {
   "n": 3,
-  "time": 1788459532.290463,
+  "time": 1788460000.0408928,
   "kind": "clip",
   "user": "",
   "agent": "",
@@ -39,7 +39,7 @@
  },
  {
   "n": 4,
-  "time": 1788459532.407276,
+  "time": 1788460000.2213671,
   "kind": "note",
   "user": "the ball goes through the paddle sometimes",
   "agent": "Reproduced it: the hit test only checked the ball centre, so at speed the ball skipped the 10 px paddle in one frame. Fixed by widening the test to the paddle's full height and bouncing on the paddle's face.",
@@ -52,7 +52,7 @@
  },
  {
   "n": 5,
-  "time": 1788459535.50371,
+  "time": 1788460003.4927201,
   "kind": "shot",
   "user": "",
   "agent": "",
@@ -64,7 +64,7 @@
  },
  {
   "n": 6,
-  "time": 1788459535.730564,
+  "time": 1788460003.6716,
   "kind": "compare",
   "user": "",
   "agent": "",
@@ -76,7 +76,7 @@
  },
  {
   "n": 7,
-  "time": 1788459535.854115,
+  "time": 1788460003.777653,
   "kind": "note",
   "user": "can i control the left one with the arrows?",
   "agent": "Yes: ArrowUp/ArrowDown move the left paddle, the AI takes over when no key is held.",
@@ -88,7 +88,7 @@
  },
  {
   "n": 8,
-  "time": 1788459543.958452,
+  "time": 1788460011.630902,
   "kind": "clip",
   "user": "",
   "agent": "",
@@ -100,7 +100,7 @@
  },
  {
   "n": 9,
-  "time": 1788459544.091393,
+  "time": 1788460011.749404,
   "kind": "note",
   "user": "ok that's enough for today",
   "agent": "Stopped here. Sheet and brief written.",
