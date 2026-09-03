@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*.egg-info/
+node_modules/
+.devlog.json
+devlog/*/tmp/
+.DS_Store

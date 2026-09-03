@@ -1,0 +1,10 @@
+{
+  "name": "devlog-recorder",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Headless Chrome capture for devlog-recorder (screenshots and short clips)",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer-core": "^23.11.1"
+  }
+}

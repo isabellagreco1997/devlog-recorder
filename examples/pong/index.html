@@ -1,0 +1,20 @@
+<!doctype html><meta charset="utf-8"><title>pong</title>
+<style>html,body{margin:0;background:#0b0b0e;height:100%;display:grid;place-items:center;font-family:monospace}canvas{background:#111;image-rendering:pixelated}</style>
+<canvas id="c" width="640" height="360"></canvas>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W=640,H=360,ball={x:W/2,y:H/2,vx:4,vy:2.5},L={y:H/2},R={y:H/2},score=[0,0],keys={};
+addEventListener('keydown',e=>keys[e.key]=1);addEventListener('keyup',e=>keys[e.key]=0);
+function step(){
+  // left paddle: keys or a lazy AI; right paddle: AI
+  if(keys.ArrowUp)L.y-=6;else if(keys.ArrowDown)L.y+=6;else L.y+=(ball.y-L.y)*0.08;
+  R.y+=(ball.y-R.y)*0.11; L.y=Math.max(40,Math.min(H-40,L.y)); R.y=Math.max(40,Math.min(H-40,R.y));
+  ball.x+=ball.vx;ball.y+=ball.vy; if(ball.y<8||ball.y>H-8)ball.vy*=-1;
+  if(ball.x<28&&Math.abs(ball.y-L.y)<44){ball.vx=Math.abs(ball.vx)*1.03;ball.vy+=(ball.y-L.y)*0.05}
+  if(ball.x>W-28&&Math.abs(ball.y-R.y)<44){ball.vx=-Math.abs(ball.vx)*1.03;ball.vy+=(ball.y-R.y)*0.05}
+  if(ball.x<0||ball.x>W){score[ball.x<0?1:0]++;ball={x:W/2,y:H/2,vx:(ball.x<0?4:-4),vy:2.5}}
+  x.fillStyle='#111';x.fillRect(0,0,W,H);x.fillStyle='#f5f2eb';for(let y=0;y<H;y+=24)x.fillRect(W/2-2,y,4,12);
+  x.fillRect(16,L.y-40,10,80);x.fillRect(W-26,R.y-40,10,80);x.fillRect(ball.x-6,ball.y-6,12,12);
+  x.font='28px monospace';x.fillText(score[0],W/2-60,40);x.fillText(score[1],W/2+40,40);
+  requestAnimationFrame(step)}
+step();
+</script>
